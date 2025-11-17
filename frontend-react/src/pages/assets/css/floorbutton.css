@@ -1,0 +1,26 @@
+.circular_button {
+    /* background-color: var(--brand-primary-light); */
+    /* color: rgb(255, 255, 255); */
+    font-size: x-large;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    transition: ease-in-out 0.5s;
+    /* border: var(--brand-primary) 3px solid; */
+}
+
+.circular_button:hover,
+.active {
+    background-color: var(--brand-primary-dark);
+    transition: ease-in-out 0.5s;
+}
+
+@media only screen and (max-width: 768px) {
+    .circular_button {
+        font-size: larger;
+        height: 50px;
+        width: 50px;
+        transition: ease-in-out 1s;
+    }
+}

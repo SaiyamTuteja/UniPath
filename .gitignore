@@ -1,0 +1,8 @@
+tester.js
+test.js
+map.js
+.env
+node_modules
+.vscode
+/backend/misc/
+/backend/assets/
