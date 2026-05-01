@@ -11,6 +11,7 @@ const timetableRoutes = require('./routes/timetableRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const lostFoundRoutes = require('./routes/lostFoundRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const crowdRoutes = require('./routes/crowdRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,6 +45,7 @@ app.use('/api/timetable', timetableRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/lost-found', lostFoundRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/crowd', crowdRoutes);
 
 // Legacy navit-compatible endpoints (so frontend works without changes)
 const mapController = require('./controllers/mapController');

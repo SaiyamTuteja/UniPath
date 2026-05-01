@@ -65,21 +65,20 @@ export default function NavigationPanel({ setShowScanner }) {
       transition={{ type: 'spring', stiffness: 300, damping: 30, delay: 0.3 }}
       style={{
         position: 'fixed',
-        bottom: 0, left: 0, right: 0,
-        background: 'linear-gradient(135deg, rgba(5,15,30,0.97), rgba(8,22,42,0.98))',
-        backdropFilter: 'blur(20px)',
-        padding: '10px 12px 14px',
+        bottom: 20, left: '50%', transform: 'translateX(-50%)', width: '90%', maxWidth: 800,
+        background: 'var(--bg-card)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        padding: '14px 20px',
+        borderRadius: 24,
         display: 'flex',
-        gap: 8,
-        alignItems: 'flex-end',
-        boxShadow: '0 -4px 24px rgba(0,0,0,0.6)',
+        gap: 12,
+        alignItems: 'center',
+        boxShadow: '0 8px 32px var(--shadow-color)',
         zIndex: 1000,
-        borderTop: '1px solid rgba(20,184,166,0.15)',
+        border: '1px solid var(--border-default)',
       }}
     >
-      {/* Drag handle */}
-      <div style={{ position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)', width: 32, height: 3, borderRadius: 3, background: 'rgba(255,255,255,0.1)' }} />
-
       {/* Source */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={labelStyle}>📍 Start</div>
@@ -87,13 +86,13 @@ export default function NavigationPanel({ setShowScanner }) {
           id="nav-source"
           value={source}
           onChange={e => setSource(e.target.value)}
-          style={{ ...selectStyle, color: source ? '#f0fdfa' : '#475569' }}
+          style={{ ...selectStyle, background: 'var(--input-bg)', borderColor: 'var(--input-border)', color: source ? 'var(--text-primary)' : 'var(--text-muted)' }}
         >
-          <option value="">Choose Start</option>
+          <option value="" style={{ color: 'var(--text-primary)' }}>Choose Start</option>
           {dropdownRooms.map((floorGroup, fi) => (
             <optgroup key={fi} label={floorGroup.floor_label}>
               {floorGroup.room_data.map((r, ri) => (
-                <option key={ri} value={r.roomid}>{r.room_name}</option>
+                <option key={ri} value={r.roomid} style={{ color: 'var(--text-primary)' }}>{r.room_name}</option>
               ))}
             </optgroup>
           ))}
@@ -107,12 +106,12 @@ export default function NavigationPanel({ setShowScanner }) {
         onClick={() => setShowScanner?.(true)}
         title="Scan QR code"
         style={{
-          width: 38, height: 38, marginBottom: 1, flexShrink: 0,
-          background: 'rgba(20,184,166,0.12)',
-          border: '1px solid rgba(20,184,166,0.3)',
-          borderRadius: 10,
+          width: 44, height: 44, marginTop: 18, flexShrink: 0,
+          background: 'var(--brand-primary-light)',
+          border: '1px solid var(--accent-teal)',
+          borderRadius: 12,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer', color: '#5eead4',
+          cursor: 'pointer', color: 'var(--accent-teal)',
         }}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -125,7 +124,7 @@ export default function NavigationPanel({ setShowScanner }) {
         <div style={labelStyle}>
           🏁 Destination
           {hasRoute && walkTime && (
-            <span style={{ marginLeft: 6, color: '#5eead4', fontWeight: 800 }}>
+            <span style={{ marginLeft: 6, color: 'var(--accent-teal)', fontWeight: 800 }}>
               🚶 {walkTime}
             </span>
           )}
@@ -134,13 +133,13 @@ export default function NavigationPanel({ setShowScanner }) {
           id="nav-destination"
           value={destination}
           onChange={e => setDestination(e.target.value)}
-          style={{ ...selectStyle, color: destination ? '#f0fdfa' : '#475569' }}
+          style={{ ...selectStyle, background: 'var(--input-bg)', borderColor: 'var(--input-border)', color: destination ? 'var(--text-primary)' : 'var(--text-muted)' }}
         >
-          <option value="">Choose Destination</option>
+          <option value="" style={{ color: 'var(--text-primary)' }}>Choose Destination</option>
           {dropdownRooms.map((floorGroup, fi) => (
             <optgroup key={fi} label={floorGroup.floor_label}>
               {floorGroup.room_data.map((r, ri) => (
-                <option key={ri} value={r.roomid}>{r.room_name}</option>
+                <option key={ri} value={r.roomid} style={{ color: 'var(--text-primary)' }}>{r.room_name}</option>
               ))}
             </optgroup>
           ))}
@@ -156,33 +155,33 @@ export default function NavigationPanel({ setShowScanner }) {
         disabled={loading}
         style={{
           padding: '0 16px',
-          height: 38,
+          height: 44,
           flexShrink: 0,
           background: loading
-            ? 'rgba(100,116,139,0.3)'
+            ? 'var(--input-bg)'
             : hasRoute
               ? 'rgba(239,68,68,0.15)'
-              : 'linear-gradient(135deg, #0d9488, #2563eb)',
+              : 'linear-gradient(135deg, var(--accent-teal), var(--accent-blue))',
           border: loading
-            ? '1px solid rgba(100,116,139,0.2)'
+            ? '1px solid var(--border-default)'
             : hasRoute
               ? '1px solid rgba(239,68,68,0.4)'
-              : '1px solid rgba(13,148,136,0.4)',
-          borderRadius: 10,
-          color: loading ? '#64748b' : hasRoute ? '#f87171' : 'white',
+              : 'none',
+          borderRadius: 12,
+          color: loading ? 'var(--text-muted)' : hasRoute ? '#f87171' : 'white',
           fontSize: 14,
           fontWeight: 800,
           cursor: loading ? 'not-allowed' : 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-          marginBottom: 1,
+          marginTop: 18,
           letterSpacing: 0.3,
-          boxShadow: (!loading && !hasRoute) ? '0 0 16px rgba(13,148,136,0.4)' : 'none',
+          boxShadow: (!loading && !hasRoute) ? '0 4px 12px rgba(20,184,166,0.3)' : 'none',
           transition: 'all 0.2s',
-          minWidth: 56,
+          minWidth: 64,
         }}
       >
         {loading
-          ? <div style={{ width: 16, height: 16, border: '2px solid rgba(255,255,255,0.2)', borderTop: '2px solid #5eead4', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+          ? <div style={{ width: 16, height: 16, border: '2px solid rgba(255,255,255,0.2)', borderTop: '2px solid var(--accent-teal)', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
           : hasRoute
             ? '✕'
             : 'Go'

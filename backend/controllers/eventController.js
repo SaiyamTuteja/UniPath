@@ -5,7 +5,11 @@ exports.getEvents = async (req, res) => {
   try {
     const { upcoming } = req.query;
     const filter = {};
-    if (upcoming === 'true') filter.date = { $gte: new Date() };
+    if (upcoming === 'true') {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      filter.date = { $gte: today };
+    }
     const events = await Event.find(filter)
       .sort({ date: 1 })
       .limit(100)

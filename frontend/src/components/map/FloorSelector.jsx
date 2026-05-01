@@ -29,12 +29,13 @@ export default function FloorSelector() {
     }}>
       {/* Container glass pill */}
       <div style={{
-        background: 'linear-gradient(180deg, rgba(5,15,30,0.9), rgba(8,22,42,0.95))',
-        border: '1px solid rgba(20,184,166,0.15)',
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-default)',
         borderRadius: 24,
         padding: '6px 4px',
-        backdropFilter: 'blur(16px)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        boxShadow: '0 8px 32px var(--shadow-color)',
         display: 'flex',
         flexDirection: 'column',
         gap: 4,
@@ -57,20 +58,20 @@ export default function FloorSelector() {
                 height: 38,
                 borderRadius: '50%',
                 background: isActive
-                  ? 'linear-gradient(135deg, #0d9488, #2563eb)'
-                  : 'rgba(255,255,255,0.04)',
-                color: isActive ? 'white' : 'rgba(255,255,255,0.5)',
+                  ? 'linear-gradient(135deg, var(--accent-teal), var(--accent-blue))'
+                  : 'var(--input-bg)',
+                color: isActive ? 'white' : 'var(--text-muted)',
                 fontWeight: isActive ? 900 : 700,
                 fontSize: 13,
                 border: isActive
-                  ? '2px solid rgba(20,184,166,0.6)'
-                  : '1px solid rgba(255,255,255,0.08)',
+                  ? 'none'
+                  : '1px solid var(--input-border)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 boxShadow: isActive
-                  ? '0 0 16px rgba(13,148,136,0.6), 0 0 4px rgba(13,148,136,0.3), inset 0 1px 0 rgba(255,255,255,0.2)'
+                  ? '0 0 16px rgba(20,184,166,0.5)'
                   : 'none',
                 transition: 'background 0.2s, color 0.2s, border 0.2s',
                 position: 'relative',

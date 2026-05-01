@@ -2,27 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── CSS Variables ─────────────────────────────────────────── */
+/* ─── CSS Variables (Light — Default) ──────────────────────── */
 :root {
-  --bg-primary: #0A0F1E;
-  --bg-secondary: #0D1529;
-  --bg-card: rgba(13, 21, 41, 0.8);
-  --border-glow: rgba(59, 130, 246, 0.3);
-  --text-primary: #F9FAFB;
-  --text-secondary: #9CA3AF;
+  --bg-primary: #F8FAFC;
+  --bg-secondary: #F1F5F9;
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-card-solid: #FFFFFF;
+  --border-glow: rgba(59, 130, 246, 0.15);
+  --border-default: rgba(15, 23, 42, 0.08);
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
   --accent-blue: #3B82F6;
   --accent-cyan: #06B6D4;
   --accent-teal: #14B8A6;
   --accent-purple: #8B5CF6;
+  --sidebar-bg: rgba(255, 255, 255, 0.92);
+  --header-bg: rgba(248, 250, 252, 0.88);
+  --footer-bg: #0F172A;
+  --input-bg: rgba(15, 23, 42, 0.04);
+  --input-border: rgba(15, 23, 42, 0.12);
+  --hover-bg: rgba(59, 130, 246, 0.06);
+  --shadow-color: rgba(15, 23, 42, 0.08);
   --pulse-color: #3B82F6;
   --pulse-color-2: #06B6D4;
-
-  /* Navit-compatible CSS vars */
   --pulseColor: #3B82F6;
   --pulseColor2: #06B6D4;
   --Blue: #3B82F6;
   --brand-primary-dark: #06B6D4;
   --brand-primary-light: rgba(6, 182, 212, 0.15);
+}
+
+/* ─── CSS Variables (Dark) ─────────────────────────────────── */
+.dark {
+  --bg-primary: #0A0F1E;
+  --bg-secondary: #0D1529;
+  --bg-card: rgba(13, 21, 41, 0.8);
+  --bg-card-solid: #111827;
+  --border-glow: rgba(59, 130, 246, 0.3);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --sidebar-bg: rgba(10, 15, 30, 0.95);
+  --header-bg: rgba(10, 15, 30, 0.88);
+  --footer-bg: #060912;
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --hover-bg: rgba(59, 130, 246, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 /* ─── Global Reset ──────────────────────────────────────────── */
@@ -35,9 +63,17 @@ html, body, #root {
   margin: 0;
   padding: 0;
   font-family: 'Inter', -apple-system, sans-serif;
-  background: #ffffff;
-  color: #111827;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Sidebar layout margins for desktop */
+@media (min-width: 1024px) {
+  .main-content.sidebar-open {
+    margin-left: 260px;
+  }
 }
 
 /* ─── Scrollbar ─────────────────────────────────────────────── */
@@ -46,20 +82,23 @@ html, body, #root {
 ::-webkit-scrollbar-thumb { background: rgba(59,130,246,0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
 
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* ─── Glass Morphism Cards ──────────────────────────────────── */
 .glass {
-  background: rgba(13, 21, 41, 0.75);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(59, 130, 246, 0.15);
+  border: 1px solid var(--border-default);
   border-radius: 16px;
 }
 
 .glass-sm {
-  background: rgba(13, 21, 41, 0.65);
+  background: var(--bg-card);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--border-default);
   border-radius: 12px;
 }
 
@@ -343,9 +382,9 @@ html, body, #root {
 /* ─── Toaster Override ──────────────────────────────────────── */
 [data-sonner-toast], .react-hot-toast > div {
   font-family: 'Space Grotesk', sans-serif !important;
-  background: rgba(13, 21, 41, 0.95) !important;
-  border: 1px solid rgba(59, 130, 246, 0.2) !important;
-  color: #F9FAFB !important;
+  background: var(--bg-card-solid) !important;
+  border: 1px solid var(--border-default) !important;
+  color: var(--text-primary) !important;
   backdrop-filter: blur(16px);
   border-radius: 12px !important;
 }
@@ -359,11 +398,48 @@ select {
   padding-right: 40px !important;
 }
 select option {
-  background: #0D1529;
-  color: #F9FAFB;
+  background: var(--bg-card-solid);
+  color: var(--text-primary);
 }
 select optgroup {
-  background: #060912;
-  color: #06B6D4;
+  background: var(--bg-primary);
+  color: var(--accent-cyan);
   font-weight: 700;
+}
+
+/* ─── Layout Responsive ─────────────────────────────────────── */
+
+/* Desktop: sidebar visible, hamburger hidden */
+@media (min-width: 1024px) {
+  .header-hamburger { display: none !important; }
+  .sidebar-overlay { display: none !important; }
+  .sidebar-panel { transform: translateX(0) !important; }
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .header-hamburger { display: flex !important; }
+  .header-nav { display: none !important; }
+  .header-profile-name { display: none !important; }
+  .sidebar-overlay { display: block !important; }
+  .main-content { margin-left: 0 !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
+  .home-actions-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .home-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .home-two-col { grid-template-columns: 1fr !important; }
+  .home-lf-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .footer-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+  .home-actions-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .home-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .home-lf-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ─── Spin Animation ────────────────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

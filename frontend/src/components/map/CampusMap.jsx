@@ -22,12 +22,12 @@ const DEFAULT_ZOOM = 19;
 // ── Header icon button component ─────────────────────────────────────────
 const IconBtn = ({ title, href, onClick, children }) => {
   const base = {
-    width: 34,
-    height: 34,
-    borderRadius: "50%",
-    background: "rgba(20,184,166,0.12)",
-    border: "1px solid rgba(20,184,166,0.25)",
-    color: "#5eead4",
+    width: 36,
+    height: 36,
+    borderRadius: "12px",
+    background: "var(--input-bg)",
+    border: "1px solid var(--border-default)",
+    color: "var(--text-primary)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -76,11 +76,15 @@ function QRScannerView({ onScan }) {
             // Parse room ID from QR text
             let roomId = decodedText;
             try {
-              const url = new URL(decodedText);
-              roomId =
-                url.searchParams.get("source") ||
-                url.searchParams.get("room") ||
-                decodedText;
+              if (decodedText.startsWith("unipath://room/")) {
+                roomId = decodedText.split("unipath://room/")[1];
+              } else {
+                const url = new URL(decodedText);
+                roomId =
+                  url.searchParams.get("source") ||
+                  url.searchParams.get("room") ||
+                  decodedText;
+              }
             } catch {}
             onScan(roomId);
           },
@@ -425,138 +429,141 @@ export default function CampusMap() {
         )}
       </MapContainer>
 
-      {/* ══ PREMIUM DARK HEADER ══════════════════════════════════════ */}
+      {/* ══ PREMIUM THEME HEADER ══════════════════════════════════════ */}
       <div
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           right: 0,
-          height: 52,
+          height: 64,
           zIndex: 1000,
-          background:
-            "linear-gradient(135deg, rgba(5,15,30,0.97), rgba(8,22,42,0.97))",
-          backdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(20,184,166,0.15)",
+          background: "var(--header-bg)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          borderBottom: "1px solid var(--border-default)",
           display: "flex",
           alignItems: "center",
-          padding: "0 12px",
-          gap: 8,
-          boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
+          padding: "0 24px",
+          justifyContent: "space-between",
+          boxShadow: "0 4px 20px var(--shadow-color)",
         }}
       >
         {/* Animated Logo */}
         <motion.div
           whileHover={{ scale: 1.05 }}
-          style={{ display: "flex", alignItems: "center", gap: 8, flex: 1 }}
+          style={{ display: "flex", alignItems: "center", gap: 10 }}
         >
           <div
             style={{
-              width: 34,
-              height: 34,
+              width: 36,
+              height: 36,
               borderRadius: 10,
-              background: "linear-gradient(135deg, #0d9488, #2563eb)",
+              background: "linear-gradient(135deg, var(--accent-teal), var(--accent-blue))",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: "0 0 12px rgba(13,148,136,0.4)",
+              boxShadow: "0 2px 12px rgba(59, 130, 246, 0.3)",
               animation: "logoGlow 3s ease-in-out infinite",
             }}
           >
-            <img src="/logo.png" alt="UniPath Logo" className="w-20 h-18" />
-            {/* <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-              <path d="M3 11l19-9-9 19-2-8-8-2z"/>
-            </svg> */}
+            <span style={{ fontSize: 18 }}>🧭</span>
           </div>
-          <span
-            style={{
-              fontWeight: 800,
-              fontSize: 17,
-              background: "linear-gradient(90deg, #5eead4, #93c5fd)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            UniPath
-          </span>
+          <div>
+            <div
+              style={{
+                fontSize: 18,
+                fontWeight: 900,
+                background: "linear-gradient(135deg, var(--accent-blue), var(--accent-cyan), var(--accent-teal))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                lineHeight: 1.2,
+              }}
+            >
+              UniPath
+            </div>
+            <div
+              style={{
+                fontSize: 9,
+                fontWeight: 600,
+                color: "var(--text-muted)",
+                letterSpacing: 1.5,
+                textTransform: "uppercase",
+              }}
+            >
+              Map Navigator
+            </div>
+          </div>
         </motion.div>
 
-        {/* Nav Links */}
+        {/* Center: Nav Links */}
         <div style={{ display: "flex", gap: 4 }}>
           {[
+            { to: "/home", label: "🏠 Home" },
             { to: "/map", label: "🗺️ Map" },
             { to: "/events", label: "📅 Events" },
             { to: "/lost-found", label: "🔍 L&F" },
-          ].map(({ to, label }) => (
-            <Link
-              key={to}
-              to={to}
-              style={{
-                padding: "5px 10px",
-                borderRadius: 8,
-                fontSize: 11,
-                fontWeight: 700,
-                color: window.location.pathname === to ? "#5eead4" : "#64748b",
-                background:
-                  window.location.pathname === to
-                    ? "rgba(20,184,166,0.1)"
-                    : "transparent",
-                border:
-                  window.location.pathname === to
-                    ? "1px solid rgba(20,184,166,0.3)"
-                    : "1px solid transparent",
-                textDecoration: "none",
-                transition: "all 0.2s",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {label}
-            </Link>
-          ))}
+          ].map(({ to, label }) => {
+            const isActive = window.location.pathname === to
+            return (
+              <Link
+                key={to}
+                to={to}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: 10,
+                  fontSize: 13,
+                  fontWeight: isActive ? 700 : 500,
+                  color: isActive ? "var(--accent-blue)" : "var(--text-secondary)",
+                  background: isActive ? "var(--hover-bg)" : "transparent",
+                  textDecoration: "none",
+                  transition: "all 0.2s",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                }}
+              >
+                {label}
+              </Link>
+            )
+          })}
         </div>
 
-        {/* Status badge */}
-        <motion.span
-          animate={{ opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          style={{
-            fontSize: 10,
-            fontWeight: 700,
-            padding: "3px 8px",
-            borderRadius: 20,
-            background:
-              timeslotLabel === "Closed"
-                ? "rgba(100,116,139,0.15)"
-                : "rgba(16,185,129,0.15)",
-            color: timeslotLabel === "Closed" ? "#94a3b8" : "#34d399",
-            border: `1px solid ${timeslotLabel === "Closed" ? "rgba(100,116,139,0.3)" : "rgba(16,185,129,0.4)"}`,
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-          }}
-        >
-          <span
+        {/* Right Controls */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {/* Status badge */}
+          <motion.span
+            animate={{ opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 3, repeat: Infinity }}
             style={{
-              width: 5,
-              height: 5,
-              borderRadius: "50%",
-              background: timeslotLabel === "Closed" ? "#94a3b8" : "#34d399",
-              display: "inline-block",
+              fontSize: 11,
+              fontWeight: 700,
+              padding: "4px 10px",
+              borderRadius: 20,
+              background:
+                timeslotLabel === "Closed"
+                  ? "var(--input-bg)"
+                  : "rgba(16,185,129,0.15)",
+              color: timeslotLabel === "Closed" ? "var(--text-muted)" : "#10B981",
+              border: `1px solid ${timeslotLabel === "Closed" ? "var(--border-default)" : "rgba(16,185,129,0.4)"}`,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              marginRight: 8,
             }}
-          />
-          {timeslotLabel}
-        </motion.span>
-
-        {/* Icon buttons */}
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <IconBtn
-            href="https://github.com/SaiyamTuteja/uni_path_"
-            title="GitHub"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="#5eead4">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-          </IconBtn>
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: timeslotLabel === "Closed" ? "var(--text-muted)" : "#10B981",
+                display: "inline-block",
+              }}
+            />
+            {timeslotLabel}
+          </motion.span>
+
           <IconBtn
             onClick={() => {
               fetchGeoJSON();
@@ -564,11 +571,11 @@ export default function CampusMap() {
             title="Refresh Map"
           >
             <svg
-              width="13"
-              height="13"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#5eead4"
+              stroke="var(--accent-teal)"
               strokeWidth="2.5"
             >
               <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -583,32 +590,32 @@ export default function CampusMap() {
             }
             title="Help"
           >
-            <span style={{ fontWeight: 900, fontSize: 13, color: "#5eead4" }}>
+            <span style={{ fontWeight: 900, fontSize: 14, color: "var(--accent-teal)" }}>
               ?
             </span>
           </IconBtn>
 
           {/* Profile button */}
           <motion.button
-            whileHover={{ scale: 1.08 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowProfile((p) => !p)}
             style={{
-              width: 34,
-              height: 34,
+              width: 36,
+              height: 36,
               borderRadius: "50%",
               background: user?.isGuest
-                ? "rgba(100,116,139,0.2)"
-                : "linear-gradient(135deg, #0d9488, #2563eb)",
-              border: "2px solid rgba(20,184,166,0.4)",
+                ? "var(--input-bg)"
+                : "linear-gradient(135deg, var(--accent-blue), var(--accent-purple))",
+              border: "1px solid var(--border-default)",
               color: "white",
               cursor: "pointer",
               fontWeight: 800,
-              fontSize: 13,
+              fontSize: 14,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: showProfile ? "0 0 12px rgba(13,148,136,0.5)" : "none",
+              marginLeft: 4,
             }}
           >
             {user?.isGuest ? "👤" : user?.firstName?.[0] || "?"}
