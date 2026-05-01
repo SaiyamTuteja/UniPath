@@ -1,25 +1,25 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-
 export default defineConfig({
   plugins: [react()],
+  base: "/UniPath/",
   server: {
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://unipath-z13c.onrender.com',
         changeOrigin: true,
       },
       '/getmap': {
-        target: 'http://localhost:5000',
+        target: 'https://unipath-z13c.onrender.com',
         changeOrigin: true,
       },
       '/getCoordinates': {
-        target: 'http://localhost:5000',
+        target: 'https://unipath-z13c.onrender.com',
         changeOrigin: true,
       },
       '/room': {
-        target: 'http://localhost:5000',
+        target: 'https://unipath-z13c.onrender.com',
         changeOrigin: true,
       },
     },
