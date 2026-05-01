@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
-app.set('trust proxy', 1);
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
-const { connectDB } = require('./config/db');
 
+const app = express(); // ✅ ONLY ONCE
+
+app.set('trust proxy', 1); // ✅ correct place
+
+const { connectDB } = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const mapRoutes = require('./routes/mapRoutes');
 const roomRoutes = require('./routes/roomRoutes');
@@ -14,7 +17,6 @@ const lostFoundRoutes = require('./routes/lostFoundRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const crowdRoutes = require('./routes/crowdRoutes');
 
-const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ─── Middleware ───────────────────────────────────────────────
