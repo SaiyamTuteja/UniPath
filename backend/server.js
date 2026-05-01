@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+app.set('trust proxy', 1);
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const { connectDB } = require('./config/db');
@@ -22,6 +23,9 @@ app.use(cors({
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5175',
+    'https://uni--path.vercel.app',
+    'https://saiyamtuteja.me',
+    // ...(process.env.CLIENT_URL?.split(',') || [])
     process.env.CLIENT_URL,
   ].filter(Boolean),
   credentials: true,
