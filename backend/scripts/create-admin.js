@@ -9,7 +9,7 @@ async function testRegistration() {
     console.log('Connected OK');
 
     const User = require('../models/User');
-    
+
     // Check if user already exists
     const existing = await User.findOne({ email: 'saiyam@gehu.ac.in' });
     if (existing) {
@@ -26,7 +26,7 @@ async function testRegistration() {
       password: 'Admin@1234',
       role: 'admin'
     });
-    
+
     console.log('\n✅ Admin user created successfully!');
     console.log('   Name:', user.firstName, user.lastName);
     console.log('   Email:', user.email);
@@ -35,7 +35,7 @@ async function testRegistration() {
     console.log('   👉 Email: saiyam@gehu.ac.in');
     console.log('   👉 Password: Admin@1234');
     console.log('   👉 After login, go to http://localhost:5173/admin\n');
-    
+
   } catch (err) {
     console.error('\n❌ Error:', err.message);
     if (err.errors) {

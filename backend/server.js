@@ -25,6 +25,7 @@ app.use(cors({
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5175',
+    'https://saiyamtuteja.github.io',
     'https://uni--path.vercel.app',
     'https://saiyamtuteja.me',
     // ...(process.env.CLIENT_URL?.split(',') || [])
